@@ -1,6 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import TodoLists from "../compoents/TodoLists";
 import { uuid } from "uuidv4";
+import Jumbotron from "react-bootstrap/Jumbotron";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
+import Badge from "react-bootstrap/Badge";
 
 //save our todos is our local storage
 const LOCAL_STORAGE_KEY = " todoApp.todos";
@@ -46,11 +52,45 @@ export default function Todo() {
   }
   return (
     <div>
-      <TodoLists todos={todos} toggeleTodo={toggeleTodo} />
-      <input ref={todoNameRef} type="text" />
-      <button onClick={handleAddTodo}>Add to do</button>
-      <button onClick={handleClearTodos}> clear complete</button>
-      <div>{todos.filter((todo) => !todo.complete).length} left to do</div>
+      <Jumbotron
+        style={{
+          backgroundColor: "#ffdae9",
+          color: "gray",
+        }}>
+        <h1>make its started!</h1>
+      </Jumbotron>
+      <Modal.Dialog>
+        <Modal.Header closeButton>
+          <Modal.Title> Building your TodoLists </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <TodoLists todos={todos} toggeleTodo={toggeleTodo} />
+        </Modal.Body>
+
+        <Modal.Footer>
+          <InputGroup>
+            <FormControl
+              placeholder="what you wanna do next.."
+              ref={todoNameRef}
+              // aria-label="Recipient's username"
+              aria-describedby="basic-addon2"
+            />
+            <InputGroup.Append>
+              <Button variant="secondary" onClick={handleAddTodo}>
+                Add to do
+              </Button>
+              <Button variant="primary" onClick={handleClearTodos}>
+                {" "}
+                clear complete
+              </Button>
+            </InputGroup.Append>
+          </InputGroup>
+          <Badge pill variant="danger">
+            {todos.filter((todo) => !todo.complete).length} left to go!
+          </Badge>
+        </Modal.Footer>
+      </Modal.Dialog>
     </div>
   );
 }
